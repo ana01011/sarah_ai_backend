@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+server.log
+
+# Model files (too large for GitHub)
+*.gguf
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Backup files
+*_backup*
+*_old*
+main_backup*.py
+main_old*.py
+main_full.py
+
+# Problematic files
+-H
+-d
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

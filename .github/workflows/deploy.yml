@@ -1,0 +1,208 @@
+name: Deploy Backend to Server
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+    
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Lint with flake8
+      run: |
+        # Stop build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=venv
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=venv
+    
+    - name: Test application startup
+      run: |
+        # Basic import test
+        python -c "from app.main import app; print('App imports successfully')"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+    
+    - name: Deploy to Server
+      run: |
+        # Create deployment script
+        cat > deploy.sh << 'EOF'
+        #!/bin/bash
+        set -e
+        
+        echo "🚀 Starting deployment..."
+        
+        # Variables
+        DEPLOY_PATH="${{ secrets.DEPLOY_PATH }}"
+        BACKUP_PATH="$DEPLOY_PATH/backups/$(date +%Y%m%d_%H%M%S)"
+        SERVICE_NAME="sarah_ai_backend"
+        
+        # Create backup
+        echo "📦 Creating backup..."
+        mkdir -p "$BACKUP_PATH"
+        if [ -d "$DEPLOY_PATH/current" ]; then
+          cp -r "$DEPLOY_PATH/current" "$BACKUP_PATH/"
+        fi
+        
+        # Create directories
+        mkdir -p "$DEPLOY_PATH/releases"
+        mkdir -p "$DEPLOY_PATH/shared"
+        mkdir -p "$DEPLOY_PATH/shared/models"
+        mkdir -p "$DEPLOY_PATH/shared/logs"
+        
+        # Deploy new version
+        RELEASE_PATH="$DEPLOY_PATH/releases/$(date +%Y%m%d_%H%M%S)"
+        mkdir -p "$RELEASE_PATH"
+        
+        # Copy files
+        echo "📂 Copying files..."
+        rsync -avz --exclude='.git' --exclude='venv' --exclude='__pycache__' \
+              --exclude='*.pyc' --exclude='.env' --exclude='*.gguf' \
+              ./ "$RELEASE_PATH/"
+        
+        # Link shared resources
+        echo "🔗 Linking shared resources..."
+        ln -sfn "$DEPLOY_PATH/shared/models" "$RELEASE_PATH/models"
+        ln -sfn "$DEPLOY_PATH/shared/logs" "$RELEASE_PATH/logs"
+        
+        # Copy environment file if exists
+        if [ -f "$DEPLOY_PATH/shared/.env" ]; then
+          ln -sfn "$DEPLOY_PATH/shared/.env" "$RELEASE_PATH/.env"
+        fi
+        
+        # Link model file if exists
+        if [ -f "$DEPLOY_PATH/shared/models/openhermes-2.5-mistral-7b.Q4_K_M.gguf" ]; then
+          ln -sfn "$DEPLOY_PATH/shared/models/openhermes-2.5-mistral-7b.Q4_K_M.gguf" \
+                  "$RELEASE_PATH/openhermes-2.5-mistral-7b.Q4_K_M.gguf"
+        fi
+        
+        # Update symlink
+        echo "🔄 Updating current release..."
+        ln -sfn "$RELEASE_PATH" "$DEPLOY_PATH/current"
+        
+        # Install/Update dependencies
+        echo "📦 Installing dependencies..."
+        cd "$DEPLOY_PATH/current"
+        
+        # Create virtual environment if it doesn't exist
+        if [ ! -d "$DEPLOY_PATH/shared/venv" ]; then
+          python3 -m venv "$DEPLOY_PATH/shared/venv"
+        fi
+        
+        # Link virtual environment
+        ln -sfn "$DEPLOY_PATH/shared/venv" "$RELEASE_PATH/venv"
+        
+        # Activate and install requirements
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        
+        # Restart service
+        echo "🔄 Restarting service..."
+        
+        # Check if systemd service exists
+        if systemctl list-units --full -all | grep -Fq "$SERVICE_NAME.service"; then
+          sudo systemctl restart $SERVICE_NAME
+          echo "✅ Service restarted"
+        else
+          echo "⚠️  Service not found. Starting with PM2..."
+          
+          # Install PM2 if not exists
+          which pm2 || npm install -g pm2
+          
+          # Stop existing PM2 process if any
+          pm2 stop $SERVICE_NAME 2>/dev/null || true
+          pm2 delete $SERVICE_NAME 2>/dev/null || true
+          
+          # Start with PM2
+          pm2 start "python main.py" --name $SERVICE_NAME --interpreter python3
+          pm2 save
+          
+          echo "✅ Started with PM2"
+        fi
+        
+        # Health check
+        echo "🏥 Running health check..."
+        sleep 5
+        
+        if curl -f http://localhost:8000/health > /dev/null 2>&1; then
+          echo "✅ Health check passed!"
+        else
+          echo "❌ Health check failed! Rolling back..."
+          
+          # Rollback
+          if [ -d "$BACKUP_PATH/current" ]; then
+            rm "$DEPLOY_PATH/current"
+            ln -sfn "$BACKUP_PATH/current" "$DEPLOY_PATH/current"
+            sudo systemctl restart $SERVICE_NAME 2>/dev/null || \
+              pm2 restart $SERVICE_NAME 2>/dev/null || true
+          fi
+          
+          exit 1
+        fi
+        
+        # Cleanup old releases (keep last 5)
+        echo "🧹 Cleaning up old releases..."
+        cd "$DEPLOY_PATH/releases" && ls -t | tail -n +6 | xargs rm -rf 2>/dev/null || true
+        
+        echo "✅ Deployment successful!"
+        EOF
+        
+        # Copy and execute deployment script
+        scp -i ~/.ssh/deploy_key deploy.sh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/tmp/
+        ssh -i ~/.ssh/deploy_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd ${{ secrets.DEPLOY_PATH }} && bash /tmp/deploy.sh"
+    
+    - name: Verify Deployment
+      run: |
+        ssh -i ~/.ssh/deploy_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          echo "🔍 Verifying deployment..."
+          curl -f http://localhost:8000/health || exit 1
+          echo "✅ Backend is running!"
+        EOF
+    
+    - name: Notify Success
+      if: success()
+      run: echo "✅ Deployment completed successfully!"
+    
+    - name: Notify Failure
+      if: failure()
+      run: echo "❌ Deployment failed! Check logs for details."
