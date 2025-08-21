@@ -49,6 +49,19 @@ class Settings(BaseSettings):
     google_client_id: str = os.getenv("GOOGLE_CLIENT_ID", "")
     google_client_secret: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
     
+    # Email settings (for password reset)
+    smtp_host: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
+    smtp_user: str = os.getenv("SMTP_USER", "")
+    smtp_password: str = os.getenv("SMTP_PASSWORD", "")
+    from_email: str = os.getenv("FROM_EMAIL", "noreply@sarahai.com")
+    
+    # Frontend URL (for password reset links)
+    frontend_url: str = os.getenv("FRONTEND_URL", "http://localhost:3000")
+    
+    # Environment
+    environment: str = os.getenv("ENVIRONMENT", "development")
+    
     # Logging
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
     
