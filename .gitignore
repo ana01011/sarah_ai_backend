@@ -1,9 +1,41 @@
-__pycache__/
-*.pyc
-venv/
+# Environment files
 .env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+
+# Logs
 *.log
+server.log
+logs/
+
+# Database
+*.db
+*.sql
+*.sqlite
+
+# Model files (large)
 *.gguf
-*_backup*
-*_old*
--*
+*.bin
+
+# Backups
+backups/
+*.backup
+*.tar.gz
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
