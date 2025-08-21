@@ -647,5 +647,33 @@
       "assistant": "Sure! How about some popcorn or potato chips?",
       "timestamp": 1755712949.7807899
     }
+  ],
+  "user_1755742787599": [
+    {
+      "user": "hi",
+      "assistant": "Hello! How can I help you today?",
+      "timestamp": 1755742788.8349705
+    }
+  ],
+  "user_1755742792917": [
+    {
+      "user": "how are you?",
+      "assistant": "I'm doing well, thank you for asking! How can I assist you today?",
+      "timestamp": 1755742794.8344984
+    }
+  ],
+  "user_1755742802589": [
+    {
+      "user": "tell me about universe",
+      "assistant": "The universe is the term used to describe all of space, time, matter, and energy. It includes everything that exists, such as galaxies, stars, planets, and living organisms. Scientists believe the universe began with a Big Bang approximately 13.8 billion years ago and continues to expand today. It's still not fully understood, and ongoing research seeks to uncover its mysteries.",
+      "timestamp": 1755742810.2280982
+    }
+  ],
+  "user_1755742823330": [
+    {
+      "user": "how do i push my server repo to github",
+      "assistant": "To push your server repo to GitHub, you need to follow these steps:\n1. First, make sure that you have installed the latest version of Git on your computer. If not, download and install it from https://git-scm.com/downloads.\n2. Open the command prompt (Windows) or terminal (Mac/Linux) and navigate to the local directory where your server repository is located.\n3. Run the following command to initialize a new Git repository in that directory: `git init`.\n4. Add all files in your local repository to the staging area by running this command: `git add .`. The dot represents all files and directories in the current directory.\n5. Now, you need to create a new repository on GitHub. Go to https://github.com/ and sign in or create an account if needed. Click on the \"+\" button on the top right corner and select \"New repository.\" Enter a name",
+      "timestamp": 1755742841.074122
+    }
   ]
 }
