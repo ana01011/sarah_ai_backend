@@ -1,0 +1,45 @@
+INFO:     Will watch for changes in these directories: ['/root/openhermes_backend']
+ERROR:    [Errno 98] Address already in use
+INFO:     Will watch for changes in these directories: ['/root/openhermes_backend']
+ERROR:    [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/root/openhermes_backend/app/main.py", line 19, in <module>
+    from app.api.v1.routers import auth_router, chat_router, user_router
+  File "/root/openhermes_backend/app/api/v1/routers/__init__.py", line 4, in <module>
+    from app.api.v1.routers import auth_router, chat_router, user_router
+  File "/root/openhermes_backend/app/api/v1/routers/auth_router.py", line 6, in <module>
+    from app.models.auth import UserRegister, UserLogin, Token, User, GoogleAuth
+  File "/root/openhermes_backend/app/models/auth.py", line 33, in <module>
+    class Token(BaseModel):
+  File "/root/openhermes_backend/app/models/auth.py", line 35, in Token
+    refresh_token: Optional[str] = none
+                                   ^^^^
+NameError: name 'none' is not defined. Did you mean: 'None'?
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/root/openhermes_backend/app/main.py", line 19, in <module>
+    from app.api.v1.routers import auth_router, chat_router, user_router
+  File "/root/openhermes_backend/app/api/v1/routers/__init__.py", line 4, in <module>
+    from app.api.v1.routers import auth_router, chat_router, user_router
+  File "/root/openhermes_backend/app/api/v1/routers/auth_router.py", line 6, in <module>
+    from app.models.auth import UserRegister, UserLogin, Token, User, GoogleAuth
+  File "/root/openhermes_backend/app/models/auth.py", line 33, in <module>
+    class Token(BaseModel):
+  File "/root/openhermes_backend/app/models/auth.py", line 35, in Token
+    refresh_token: Optional[str] = none
+                                   ^^^^
+NameError: name 'none' is not defined. Did you mean: 'None'?
+INFO:     Will watch for changes in these directories: ['/root/openhermes_backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [430363] using StatReload
+INFO:     Started server process [430379]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [430379]
+INFO:     Stopping reloader process [430363]

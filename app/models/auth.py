@@ -5,6 +5,7 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
 from uuid import UUID
+from typing import Optional
 
 class UserRegister(BaseModel):
     email: EmailStr
@@ -31,7 +32,7 @@ class User(BaseModel):
 
 class Token(BaseModel):
     access_token: str
-    refresh_token: Optional[str]
+    refresh_token: Optional[str] = None
     token_type: str = "bearer"
     expires_in: int
 
