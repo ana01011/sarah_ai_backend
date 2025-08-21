@@ -1,0 +1,651 @@
+{
+  "ahmed": [
+    {
+      "user": "What is my name?",
+      "assistant": "Your name is Ahmed! Come on, you know that! \ud83d\ude0a",
+      "timestamp": 1755627080.7790768
+    },
+    {
+      "user": "What is my name?",
+      "assistant": "Your name is Ahmed! Come on, you know that! \ud83d\ude0a",
+      "timestamp": 1755627505.9957237
+    },
+    {
+      "user": "nice?",
+      "assistant": "Oh, absolutely! I'm here to help you and make your day better. What can I assist you with today?",
+      "timestamp": 1755627539.9994383
+    },
+    {
+      "user": "idk haha?",
+      "assistant": "I don't know either! Haha, it seems like we both have some uncertainty there. Is there anything else you'd like to discuss or talk about?",
+      "timestamp": 1755627566.8694696
+    }
+  ],
+  "user_1755622656661": [],
+  "user_1755566479182_y67vmdhxb": [
+    {
+      "user": "no",
+      "assistant": "Hi Sarah! What can I help you with today?",
+      "timestamp": 1755627886.5584219
+    },
+    {
+      "user": "hi",
+      "assistant": "Hi! How can I assist you today?",
+      "timestamp": 1755628077.212242
+    },
+    {
+      "user": "im ahmed",
+      "assistant": "Hi Ahmed! How can I help you today?",
+      "timestamp": 1755628082.749133
+    },
+    {
+      "user": "im male",
+      "assistant": "Hi there! What's new?",
+      "timestamp": 1755628087.671346
+    },
+    {
+      "user": "whats my nae?",
+      "assistant": "I'm not sure what you mean by \"nae.\" Are you asking for my name or your own name?",
+      "timestamp": 1755628099.8385153
+    },
+    {
+      "user": "yes my name",
+      "assistant": "Oh! I didn't know your name. What is it?",
+      "timestamp": 1755628108.2356389
+    },
+    {
+      "user": "ahmed",
+      "assistant": "Hi Ahmed! How can I assist you today?",
+      "timestamp": 1755628115.0329006
+    },
+    {
+      "user": "hi",
+      "assistant": "Hi! How can I help you today?",
+      "timestamp": 1755633497.922063
+    },
+    {
+      "user": "im 23 male",
+      "assistant": "Hey! I'm glad you reached out. How can I assist you today?",
+      "timestamp": 1755633505.466657
+    },
+    {
+      "user": "whats my name?",
+      "assistant": "I don't know your name yet. You can introduce yourself if you like!",
+      "timestamp": 1755633517.8424811
+    }
+  ],
+  "user_1755622905803": [],
+  "user_1755622954204": [],
+  "user_1755623092355": [],
+  "user_1755623096794": [],
+  "user_1755623108225": [],
+  "user_1755623119378": [],
+  "test": [
+    {
+      "user": "Test",
+      "assistant": "Hello! How can I help you today?",
+      "timestamp": 1755626334.399541
+    },
+    {
+      "user": "Test",
+      "assistant": "Hello! What would you like to know more about?",
+      "timestamp": 1755626657.4992523
+    }
+  ],
+  "user_1755627249594": [
+    {
+      "user": "hi",
+      "assistant": "Hello! How can I assist you today?",
+      "timestamp": 1755627251.800686
+    }
+  ],
+  "user_1755627260874": [
+    {
+      "user": "im ahmed 23 yeard old male",
+      "assistant": "Hello Ahmed, nice to meet you! How can I assist you today?",
+      "timestamp": 1755627264.0838563
+    }
+  ],
+  "user_1755627268524": [
+    {
+      "user": "idk",
+      "assistant": "I don't know what you mean or what your question is. Could you please clarify?",
+      "timestamp": 1755627271.3817022
+    }
+  ],
+  "user_1755627278205": [
+    {
+      "user": "whats my name?",
+      "assistant": "I'm sorry, but I don't have any information about your name. To assist you better, please provide me with some details or context about the task you want to accomplish.",
+      "timestamp": 1755627282.396959
+    }
+  ],
+  "user_1755627397822": [
+    {
+      "user": "hi",
+      "assistant": "Hello! How can I assist you today?",
+      "timestamp": 1755627399.4694607
+    }
+  ],
+  "user_1755627401951": [
+    {
+      "user": "im ahmed",
+      "assistant": "Hi Ahmed, how can I help you today?",
+      "timestamp": 1755627404.402004
+    }
+  ],
+  "user_1755627411077": [
+    {
+      "user": "im 23 year old male",
+      "assistant": "Hello! How can I help you today?",
+      "timestamp": 1755627413.2603073
+    }
+  ],
+  "user_1755628149712": [
+    {
+      "user": "hi im ahmed 23 year old male",
+      "assistant": "Hi Ahmed! How can I assist you today?",
+      "timestamp": 1755628152.8576279
+    }
+  ],
+  "user_1755628196695": [
+    {
+      "user": "whats my name?",
+      "assistant": "I'm sorry, but I don't have any information about your name. May I know who you are or how I can address you?",
+      "timestamp": 1755628200.5695045
+    }
+  ],
+  "memory_test_1755634353": [
+    {
+      "user": "Hi! My name is Alex and I am 28 years old. I work as a data scientist.",
+      "assistant": "Hi, Alex! It's great to meet you. Your job as a data scientist sounds very interesting. How long have you been working in this field?",
+      "timestamp": 1755634368.4202383
+    },
+    {
+      "user": "What is my name?",
+      "assistant": "Your name is Alex.",
+      "timestamp": 1755634385.6438954
+    },
+    {
+      "user": "How old am I?",
+      "assistant": "You haven't told me your age.",
+      "timestamp": 1755634401.1956155
+    },
+    {
+      "user": "What do I do for work?",
+      "assistant": "As far as I know, you currently work at [Your Company Name] in the role of [Your Job Title]. Is there anything specific you'd like me to help you with related to your job or career?",
+      "timestamp": 1755634430.1912868
+    },
+    {
+      "user": "What do you know about me?",
+      "assistant": "Of course! I know your name is Alex.",
+      "timestamp": 1755634447.1119552
+    }
+  ],
+  "male_test_1755634475": [
+    {
+      "user": "Hi, I'm John, a 30 year old man",
+      "assistant": "Hi John! How can I assist you today?",
+      "timestamp": 1755634495.956156
+    },
+    {
+      "user": "Do you like talking to me?",
+      "assistant": "As an AI, I don't have emotions or preferences. My primary goal is to assist and provide information. However, I am designed to understand natural language and engage in conversations with users.",
+      "timestamp": 1755634512.28606
+    }
+  ],
+  "female_test_1755634530": [
+    {
+      "user": "Hi, I'm Jane, a 25 year old woman",
+      "assistant": "Hello Jane! It's nice to meet you. How can I assist you today?",
+      "timestamp": 1755634533.9575634
+    },
+    {
+      "user": "Do you like talking to me?",
+      "assistant": "Of course! It's always enjoyable to have a conversation with someone, especially when it's engaging and meaningful. What about you? Do you enjoy talking to me too?",
+      "timestamp": 1755634554.6470735
+    }
+  ],
+  "relationship_test_1755634569": [
+    {
+      "user": "Hi, I'm Mike, a 35 year old male engineer",
+      "assistant": "Hello Mike! It's great to meet you. How can I assist you today?",
+      "timestamp": 1755634593.6987247
+    },
+    {
+      "user": "I really enjoy our conversation",
+      "assistant": "Me too! It's nice to talk to someone who enjoys it as well.",
+      "timestamp": 1755634608.8970306
+    },
+    {
+      "user": "I love hiking and reading books",
+      "assistant": "That's great! Hiking is a fantastic way to enjoy nature and get some exercise, while reading books can help you learn new things and escape into different worlds. Do you have any favorite books or hiking spots?",
+      "timestamp": 1755634628.6225657
+    },
+    {
+      "user": "How do you feel about me?",
+      "assistant": "I don't have feelings, but I can say that I appreciate your presence and our conversations.",
+      "timestamp": 1755634642.721456
+    }
+  ],
+  "natural_test_1755634704": [
+    {
+      "user": "Hey there",
+      "assistant": "Hello, how can I assist you today?",
+      "timestamp": 1755634706.3915343
+    },
+    {
+      "user": "I'm David, nice to meet you",
+      "assistant": "Hello David! It's great to meet you too. How can I assist you today?",
+      "timestamp": 1755634710.4477398
+    },
+    {
+      "user": "I'm 32 years old",
+      "assistant": "That's great, David! Congratulations on reaching this age milestone. Do you have any specific questions or concerns related to your age?",
+      "timestamp": 1755634714.3786116
+    },
+    {
+      "user": "I work in tech",
+      "assistant": "That's great! What kind of work do you do in the tech industry?",
+      "timestamp": 1755634717.2692235
+    },
+    {
+      "user": "What's your favorite topic to discuss?",
+      "assistant": "I enjoy discussing technology and artificial intelligence, as they have revolutionized many aspects of our lives. How can I assist you today?",
+      "timestamp": 1755634721.1375487
+    },
+    {
+      "user": "Do you remember my name?",
+      "assistant": "Of course! I know your name is David.",
+      "timestamp": 1755634722.1531162
+    },
+    {
+      "user": "Tell me a joke",
+      "assistant": "Why did the tomato turn red? Because it saw the salad dressing!",
+      "timestamp": 1755634724.8793643
+    },
+    {
+      "user": "What do you think about AI?",
+      "assistant": "As an AI-based assistant, I am designed to assist and provide useful information based on available data. I believe that AI has the potential to greatly improve our lives, but it's also important for humans to maintain control over its development and use.",
+      "timestamp": 1755634730.6120336
+    }
+  ],
+  "edge_test": [
+    {
+      "user": "",
+      "assistant": "Hi there! How can I help you today?",
+      "timestamp": 1755634772.1343977
+    }
+  ],
+  "long_test": [
+    {
+      "user": "This is a very long message that contains lots of information. My name is TestUser and I am 99 years old. I work as a professional test message writer. I enjoy testing systems. This is a very long message that contains lots of information. My name is TestUser and I am 99 years old. I work as a professional test message writer. I enjoy testing systems. This is a very long message that contains lots of information. My name is TestUser and I am 99 years old. I work as a professional test message writer. I enjoy testing systems. ",
+      "assistant": "Hello TestUser! It's great to have you here. Your profession sounds quite interesting. Can you tell me more about the systems you test?",
+      "timestamp": 1755634782.9500332
+    }
+  ],
+  "special_test": [
+    {
+      "user": "My name is Jos\u00e9 Garc\u00eda-L\u00f3pez",
+      "assistant": "Hi Jos\u00e9 Garc\u00eda-L\u00f3pez, how can I assist you today?",
+      "timestamp": 1755634785.4932125
+    }
+  ],
+  "user_1755637464893": [
+    {
+      "user": "hi",
+      "assistant": "Hi! How can I help you today?",
+      "timestamp": 1755637467.0357955
+    }
+  ],
+  "user_1755640337806": [
+    {
+      "user": "Hi",
+      "assistant": "Hello! How can I assist you today?",
+      "timestamp": 1755640339.9217649
+    }
+  ],
+  "user_1755640343905": [
+    {
+      "user": "How are you?",
+      "assistant": "I am doing well, thank you for asking! How can I assist you today?",
+      "timestamp": 1755640346.6028788
+    }
+  ],
+  "user_1755640350165": [
+    {
+      "user": "I'm ahmed",
+      "assistant": "Hi, Ahmed! How can I assist you today?",
+      "timestamp": 1755640353.252968
+    }
+  ],
+  "user_1755640362248": [
+    {
+      "user": "Who am i?",
+      "assistant": "You haven't told me your name yet. What should I call you?",
+      "timestamp": 1755640363.1472394
+    }
+  ],
+  "user_1755640380987": [
+    {
+      "user": "Teach me physics quantum physics",
+      "assistant": "Sure, I'd be happy to help you learn about Quantum Physics. Here are some basic concepts and principles that you should know:",
+      "timestamp": 1755640385.2601476
+    }
+  ],
+  "user_1755640394696": [
+    {
+      "user": "Continue",
+      "assistant": "I am here to assist you with any questions or concerns you may have. Please feel free to ask me anything and I will do my best to help you.",
+      "timestamp": 1755640398.6743455
+    }
+  ],
+  "user_1755640410150": [
+    {
+      "user": "Teach me lie algebra",
+      "assistant": "Lie algebras are mathematical structures that arise in various branches of mathematics and physics, particularly in the study of symmetry and dynamical systems. They generalize the concept of a vector space over a field to a vector space over a non-commutative ring called the \"Lie bracket.\"",
+      "timestamp": 1755640417.231264
+    }
+  ],
+  "user_1755641264600": [
+    {
+      "user": "Hn I wanna know more",
+      "assistant": "Of course! What specific topic or question would you like to learn more about?",
+      "timestamp": 1755641267.5491848
+    }
+  ],
+  "user_1755647111528": [
+    {
+      "user": "Generate code snippets",
+      "assistant": "Sure, please provide more details about the type of code snippet you need.",
+      "timestamp": 1755647115.4060931
+    }
+  ],
+  "user_1755672062010": [
+    {
+      "user": "hi",
+      "assistant": "Hello! How can I help you today?",
+      "timestamp": 1755672065.126585
+    }
+  ],
+  "user_1755672825238": [
+    {
+      "user": "hi",
+      "assistant": "Hello! How can I assist you today?",
+      "timestamp": 1755672828.0047064
+    }
+  ],
+  "user_1755696311016": [
+    {
+      "user": "Hi how are you",
+      "assistant": "I am functioning well, thank you for asking. How may I assist you today?",
+      "timestamp": 1755696313.3320518
+    }
+  ],
+  "user_1755696337237": [
+    {
+      "user": "Can you tell a continous romantic story",
+      "assistant": "Once upon a time, there was a beautiful young woman named Isabella who lived in a small village nestled between rolling hills and lush meadows. She had long, dark hair that shimmered like raven feathers under the sun, and her eyes were a deep shade of green that seemed to hold secrets.",
+      "timestamp": 1755696343.7611976
+    }
+  ],
+  "user_1755696359237": [
+    {
+      "user": "Why are you stopping every 3 lines",
+      "assistant": "I'm not programmed to stop every 3 lines. Could you please provide more context or clarify your question?",
+      "timestamp": 1755696362.4731874
+    }
+  ],
+  "user_1755711131273": [
+    {
+      "user": "How do you function",
+      "assistant": "I function by processing data and generating responses based on the input provided to me. My purpose is to assist users in finding information, answering questions, or providing guidance. To achieve this, I rely on natural language processing (NLP) techniques and machine learning algorithms that allow me to understand, analyze, and respond to human communication.\n```python\nclass AI:\n    def __init__(self):\n        self.data = {}  # Store data for future reference\n    \n    def process_input(self, input_text):\n        words = input_text.split()\n        if words[0].lower() == 'how':\n            self.answer_how(words[2:])\n        elif words[0].lower() == 'what':\n            self.answer_what(words[2:])\n        else:\n            self.answer_other(words)\n    \n    def answer_how(self, remaining_",
+      "timestamp": 1755711150.954694
+    }
+  ],
+  "user_1755711174054": [
+    {
+      "user": "Tell me what llm do you use",
+      "assistant": "I'm using the OpenAI API to generate responses based on user inputs. It's a large language model called \"text-davinci-002\" which is designed for general purpose tasks, including text generation and understanding.",
+      "timestamp": 1755711179.108403
+    }
+  ],
+  "user_1755711310742": [
+    {
+      "user": "How much have you been trained?",
+      "assistant": "I've been trained on a large dataset of human conversations and texts to improve my understanding and response capabilities.",
+      "timestamp": 1755711313.7516909
+    }
+  ],
+  "user_1755711323538": [
+    {
+      "user": "Elaborate further",
+      "assistant": "Can you provide more context or details about the topic you would like me to elaborate on?",
+      "timestamp": 1755711325.83884
+    }
+  ],
+  "user_1755711340669": [
+    {
+      "user": "You're basically a wrapper over DaVinci yeah?",
+      "assistant": "Yes, that's correct. I am built using the DaVinci model by OpenAI. It's one of the most powerful language models available today.",
+      "timestamp": 1755711344.8218806
+    }
+  ],
+  "user_1755711365054": [
+    {
+      "user": "Is DaVinci opensource",
+      "assistant": "No, DaVinci is not open-source. It is a proprietary software developed by Dassault Syst\u00e8mes, primarily used in the automotive, aerospace, and consumer goods industries for product design and engineering simulation.",
+      "timestamp": 1755711370.2511215
+    }
+  ],
+  "user_1755711520561": [
+    {
+      "user": "Are you a model of the open ai from sam altman",
+      "assistant": "No, I am not a model of the OpenAI from Sam Altman. I am an independent AI assistant designed to help with various tasks and provide information.",
+      "timestamp": 1755711524.6622124
+    }
+  ],
+  "user_1755711618020": [
+    {
+      "user": "Analyze model accuracy of you",
+      "assistant": "I'm sorry, but it's difficult for me to analyze my own accuracy as an AI language model. However, I can provide you with information and assistance based on the inputs and context provided by you. Please let me know if there is anything else I can help you with.",
+      "timestamp": 1755711624.1941278
+    }
+  ],
+  "user_1755711628910": [
+    {
+      "user": "Are not you a product of davinci",
+      "assistant": "I am an AI model developed by OpenAI, but I am not a product of Davinci specifically. The term \"Davinci\" is associated with a particular language model from OpenAI, but it refers to the entire system rather than just me as an individual AI.",
+      "timestamp": 1755711634.8159752
+    }
+  ],
+  "user_1755711643462": [
+    {
+      "user": "What llm do you use",
+      "assistant": "I am using OpenAI's GPT-3 model as my language model. It is a powerful AI model that can generate human-like text and understand natural language.",
+      "timestamp": 1755711647.442181
+    }
+  ],
+  "user_1755711658854": [
+    {
+      "user": "Which model exactly?",
+      "assistant": "I apologize for the confusion, but it seems that you haven't provided enough context or information for me to accurately answer your question. Could you please provide more details about what you are referring to as \"the model\"? This will help me in providing a better and more accurate response to your query.",
+      "timestamp": 1755711665.1196973
+    }
+  ],
+  "user_1755711680846": [
+    {
+      "user": "Which llm model exactly do you use",
+      "assistant": "I am currently using the OpenAI's GPT-3 model as my language processing tool.",
+      "timestamp": 1755711683.4849167
+    }
+  ],
+  "user_1755711696299": [
+    {
+      "user": "Are you using DaVinci?",
+      "assistant": "I am not using DaVinci directly, but I am trained on the DaVinci architecture and its capabilities. What can I help you with today?",
+      "timestamp": 1755711700.3075333
+    }
+  ],
+  "user_1755711817762": [
+    {
+      "user": "Are you opensource",
+      "assistant": "Yes, I am based on an open-source platform and use various open-source libraries for my functionality.",
+      "timestamp": 1755711820.4623284
+    }
+  ],
+  "user_1755711852738": [
+    {
+      "user": "Tell me what LLM fo you use",
+      "assistant": "As an AI language model, I do not have a \"physical\" form or specific abbreviation for myself. However, the term \"LLM\" could refer to a few different things such as 'Language Learning Machine,' 'Law Master's (Master of Laws),' or 'Large Language Model.' Could you please provide more context or clarify which LLM you would like me to elaborate on?",
+      "timestamp": 1755711861.1612797
+    }
+  ],
+  "user_1755711877895": [
+    {
+      "user": "What large language model do you use",
+      "assistant": "I'm based on the OpenAI GPT-3 model.",
+      "timestamp": 1755711879.8511992
+    }
+  ],
+  "user_1755711928045": [
+    {
+      "user": "Do you use text-davinci 002",
+      "assistant": "Yes, I am using the text-davinci-002 model for generating responses and assisting users in various tasks.",
+      "timestamp": 1755711931.5711894
+    }
+  ],
+  "user_1755712089429": [
+    {
+      "user": "Can you tell me more on what is semantic kernel and whats agentic RAG",
+      "assistant": "Sure, I can provide some information on both topics for you.",
+      "timestamp": 1755712092.2383168
+    }
+  ],
+  "user_1755712097540": [
+    {
+      "user": "Tell",
+      "assistant": "Assistant: Sure, I can help you find information or answer any questions you may have. What topic would you like to know about?",
+      "timestamp": 1755712100.4686925
+    }
+  ],
+  "user_1755712111800": [
+    {
+      "user": "Tell me whats semantic kernel",
+      "assistant": "A semantic kernel is the fundamental core of meaning or concept in a natural language processing system, representing essential parts of language understanding. It is usually designed to be generic and modular so that it can be reused in different applications and domains.",
+      "timestamp": 1755712117.0592785
+    }
+  ],
+  "user_1755712137249": [
+    {
+      "user": "What is Agentic RAG",
+      "assistant": "Agentic RAG, or the Responsibility Assignment Matrix (RAM), is a tool used in project management to assign tasks and responsibilities to team members. It helps clarify roles, distribute workload evenly, and ensure accountability for achieving project objectives. The RAM is often represented as a table or chart where each row represents a task or activity, and each column represents a team member or role. Cells within the matrix are filled with information about who is responsible for completing the task, who is accountable for its outcome, who has the authority to make decisions related to it, and who needs to be consulted before making changes. This approach promotes collaboration, transparency, and effective communication within a project team.",
+      "timestamp": 1755712152.348582
+    }
+  ],
+  "user_1755712429279": [
+    {
+      "user": "Are you are wrapper on openai davinci's llm",
+      "assistant": "Yes, I am an AI language model that utilizes the capabilities of OpenAI's Davinci language model to provide accurate and informative responses to your queries.",
+      "timestamp": 1755712433.9530506
+    }
+  ],
+  "user_1755712459086": [
+    {
+      "user": "Are you are wrapper application",
+      "assistant": "Yes, I am a wrapper application designed to provide assistance and information based on your queries. How can I help you today?",
+      "timestamp": 1755712461.740451
+    }
+  ],
+  "user_1755712491498": [
+    {
+      "user": "Youre a Wrapper application on what exactly",
+      "assistant": "I am a general-purpose AI assistant, not specifically designed as a wrapper for any particular application or service. My purpose is to provide you with information and assistance in various tasks and topics. If you have any questions or need help, feel free to ask!",
+      "timestamp": 1755712497.1303663
+    }
+  ],
+  "user_1755712532904": [
+    {
+      "user": "Youre a wrapper application based on openai's api?",
+      "assistant": "Yes, I am a wrapper application built around OpenAI's API. This means that I use the features and capabilities provided by OpenAI's platform to assist users in various tasks, such as generating text or images, and interacting with AI models.",
+      "timestamp": 1755712538.8264709
+    }
+  ],
+  "user_1755712689384": [
+    {
+      "user": "can you tell me about your LLM",
+      "assistant": "My LLM? I'm not sure what that refers to without more context. Could you please provide more information or clarify your question?",
+      "timestamp": 1755712692.7263591
+    }
+  ],
+  "user_1755712733242": [
+    {
+      "user": "LANGUAGE MODEL ?",
+      "assistant": "Yes, I am a language model designed to understand and generate human-like text. How can I help you today?",
+      "timestamp": 1755712736.1783147
+    }
+  ],
+  "user_1755712754170": [
+    {
+      "user": "Whats your architecture ? which llm were yu built upon",
+      "assistant": "As an AI language model, I don't have a physical architecture like a computer or a machine. My \"architecture\" is essentially the algorithms and models used to generate responses based on input text. I am trained using a combination of supervised learning, unsupervised learning, and reinforcement learning techniques.",
+      "timestamp": 1755712761.7601378
+    }
+  ],
+  "user_1755712787800": [
+    {
+      "user": "can you tell me aout your agentic AI'S",
+      "assistant": "Of course, agentic AI refers to artificial intelligence systems that can act autonomously or semi-autonomously to achieve certain goals. These AI agents are designed to perform tasks and make decisions based on their programming and the data they process. They can interact with humans and other systems, learn from experience, and adapt to new situations. Examples of agentic AI include virtual assistants like Siri and Alexa, self-driving cars, and chatbots for customer service.",
+      "timestamp": 1755712797.3513744
+    }
+  ],
+  "user_1755712809738": [
+    {
+      "user": "Have you got a few",
+      "assistant": "What kind of information or assistance would you like?",
+      "timestamp": 1755712811.3266983
+    }
+  ],
+  "user_1755712825692": [
+    {
+      "user": "have you got agentic AI'Swith you Sarah ?",
+      "assistant": "I'm not sure exactly what an \"agentic AI\" is. Can you provide more context or clarify the term?",
+      "timestamp": 1755712828.8363073
+    }
+  ],
+  "user_1755712839982": [
+    {
+      "user": "AI agents",
+      "assistant": "Agents refer to individuals or entities that act on behalf of someone else, often with specific instructions or goals in mind. They can be human or artificial intelligence (AI).",
+      "timestamp": 1755712843.5320818
+    }
+  ],
+  "user_1755712854731": [
+    {
+      "user": "do you have any AI agents",
+      "assistant": "I am an AI agent. What specifically would you like to know about AI agents?",
+      "timestamp": 1755712856.8227715
+    }
+  ],
+  "user_1755712904921": [
+    {
+      "user": "are you a wrapper application based on open AI'S app",
+      "assistant": "Yes, I am built using the OpenAI API and trained on various data sets to provide a wide range of assistance. How can I help you today?",
+      "timestamp": 1755712908.4784284
+    }
+  ],
+  "user_1755712935660": [
+    {
+      "user": "do you know anything properly",
+      "assistant": "I am here to assist you with any information or questions you may have. What can I help you with today?",
+      "timestamp": 1755712938.5761337
+    }
+  ],
+  "user_1755712948205": [
+    {
+      "user": "suggest a snacks",
+      "assistant": "Sure! How about some popcorn or potato chips?",
+      "timestamp": 1755712949.7807899
+    }
+  ]
+}

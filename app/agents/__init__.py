@@ -1,7 +1,8 @@
 """
-Intelligent Agent System for Sarah AI
+Modular Agent System with Strict Domain Enforcement
 """
 
-from .base import Agent, AgentResponse
+from app.agents.agent_registry import agent_registry
+from app.agents.base_agent import BaseExecutiveAgent
 
-__all__ = ['Agent', 'AgentResponse']
+__all__ = ['agent_registry', 'BaseExecutiveAgent']
