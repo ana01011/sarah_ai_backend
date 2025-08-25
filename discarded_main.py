@@ -24,13 +24,13 @@ load_dotenv()
 
 # ============= PERFORMANCE OPTIMIZATIONS =============
 
-
 # 1. Response cache for common questions
 RESPONSE_CACHE = {}
 CACHE_TTL = 3600  # 1 hour
 
 # 2. Memory system
 USER_MEMORY = {}
+
 
 # ============= IMPORT DATABASE AND SERVICES =============
 from app.core.database import db
@@ -69,19 +69,16 @@ auth_service.get_user_by_id = get_user_by_id
 # ============= OPTIMIZED LLAMA MODEL CONFIGURATION =============
 print("🚀 Loading OPTIMIZED Sarah AI Model...")
 
-# Get optimal thread count
-cpu_count = psutil.cpu_count(logical=False)  # Physical cores only
-optimal_threads = min(cpu_count - 1, 6)  # Leave 1 core for system
-
 # OPTIMIZED MODEL SETTINGS
 model = Llama(
     model_path="openhermes-2.5-mistral-7b.Q4_K_M.gguf",
     
     # Context and batch optimization
-    n_ctx=1024,  # Can be Reduced from 1024 - smaller context = faster
+    n_ctx=1024,  # Reduced from 1024 - smaller context = faster
     n_batch=512,  # Increased batch size for better throughput
     
     # CPU optimization
+    
     n_threads=optimal_threads,  # Use optimal thread count
     n_threads_batch=optimal_threads,  # Batch processing threads
     
@@ -298,7 +295,7 @@ async def chat_with_memory(request: ChatRequest):
         if USER_MEMORY[user_id]:
             # Only use last 2 exchanges for speed
             prompt = "You are Sarah AI. Recent context:\n"
-            for exchange in USER_MEMORY[user_id][-2:]:
+            for exchange in USER_MEMORY[user_id][-10:]:
                 prompt += f"U: {exchange['user'][:50]}\n"  # Truncate for speed
                 prompt += f"A: {exchange['assistant'][:50]}\n"
             prompt += f"\nUser: {request.message}\nAssistant:"
@@ -364,7 +361,7 @@ async def performance_stats():
             "memory_sessions": len(USER_MEMORY)
         },
         "model": {
-            "context_size": 512,
+            "context_size": 1024,
             "batch_size": 512,
             "threads": optimal_threads
         }

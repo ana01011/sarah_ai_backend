@@ -24,7 +24,6 @@ load_dotenv()
 
 # ============= PERFORMANCE OPTIMIZATIONS =============
 
-
 # 1. Response cache for common questions
 RESPONSE_CACHE = {}
 CACHE_TTL = 3600  # 1 hour
@@ -78,7 +77,7 @@ model = Llama(
     model_path="openhermes-2.5-mistral-7b.Q4_K_M.gguf",
     
     # Context and batch optimization
-    n_ctx=1024,  # Can be Reduced from 1024 - smaller context = faster
+    n_ctx=1024,  # can be Reduced from 1024 - smaller context = faster
     n_batch=512,  # Increased batch size for better throughput
     
     # CPU optimization
