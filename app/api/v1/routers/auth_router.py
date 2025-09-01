@@ -38,7 +38,7 @@ async def register(user_data: UserRegister):
     try:
         result = await auth_service.register_user(user_data)
         return {
-            "message": result["message"],
+            "message": result.get("message", "Registration successful. Please check your email for verification code."),
             "email": result["email"],
             "is_verified": result["is_verified"]
         }

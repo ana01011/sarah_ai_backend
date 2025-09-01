@@ -45,16 +45,47 @@ class AuthService:
     
     async def register_user(self, user_data: UserRegister) -> dict:
         """Register a new user with email verification"""
-        # Check if user exists
+        # Check if user exists and their verification status
         existing_user = await db.fetchrow("""
-            SELECT id FROM users 
+            SELECT id, is_verified, created_at, username 
+            FROM users 
             WHERE email = $1 OR username = $2
         """, user_data.email, user_data.username)
         
         if existing_user:
-            raise ValueError("User with this email or username already exists")
+            # Check if it's the same email trying to register
+            if existing_user['username'] != user_data.username:
+                # Different username, check if email matches
+                email_user = await db.fetchrow("SELECT id FROM users WHERE email = $1", user_data.email)
+                username_user = await db.fetchrow("SELECT id FROM users WHERE username = $1", user_data.username)
+                
+                if email_user and username_user and email_user['id'] != username_user['id']:
+                    raise ValueError("Email and username already taken by different users")
+            
+            # If user exists but is unverified
+            if not existing_user['is_verified']:
+                # Update password in case they forgot it
+                password_hash = self.hash_password(user_data.password)
+                await db.execute("""
+                    UPDATE users 
+                    SET password_hash = $2
+                    WHERE id = $1
+                """, existing_user['id'], password_hash)
+                
+                # Resend OTP to existing unverified user
+                otp = await email_service.send_verification_otp(str(existing_user['id']), user_data.email)
+                return {
+                    "id": str(existing_user['id']),
+                    "email": user_data.email,
+                    "username": existing_user['username'],
+                    "is_verified": False,
+                    "message": "Account already exists but not verified. New verification code sent to your email."
+                }
+            else:
+                # User is verified, cannot re-register
+                raise ValueError("User with this email or username already exists")
         
-        # Create user (NOT verified by default)
+        # Continue with normal registration for new users
         user_id = uuid4()
         password_hash = self.hash_password(user_data.password)
         
@@ -108,7 +139,7 @@ class AuthService:
             "email": user_data.email,
             "username": user_data.username,
             "is_verified": False,
-            "message": "Registration successful! Please check your email for verification code."
+            "message": "Registration successful. Please check your email for verification code."
         }
     
     async def verify_otp(self, email: str, otp: str) -> dict:
