@@ -528,6 +528,27 @@ async def set_personality_preference(
 
     return {"message": f"Personality preference set to {personality.value}"}
 
+@router.patch("/conversations/{conversation_id}/rename")
+async def rename_conversation(
+    conversation_id: str,
+    title: dict,
+    current_user: User = Depends(get_current_user_dependency)
+):
+    """Rename a conversation"""
+    new_title = title.get('title', '')[:100]  # Limit title length
+    
+    result = await db.execute("""
+        UPDATE conversations 
+        SET title = $3
+        WHERE id = $1 AND user_id = $2
+    """, conversation_id, current_user.id, new_title)
+    
+    if result == "UPDATE 0":
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    return {"message": "Conversation renamed", "title": new_title}
+
+
 @router.get("/relationship/status")
 async def get_relationship_status(
     current_user: User = Depends(get_current_user_dependency)
