@@ -46,14 +46,14 @@ def analyze_message_sentiment(message: str) -> dict:
     # Check for severe insults (-5 to -10 points)
     for word in insults + rude_words:
         if word in msg_lower:
-            score_change = -8
+            score_change = -5
             reason = "insulting language"
             break
     
     # Check for aggression (-10 to -15 points)
     for word in aggressive:
         if word in msg_lower:
-            score_change = -12
+            score_change = -8
             reason = "aggressive behavior"
             break
     
@@ -69,19 +69,19 @@ def analyze_message_sentiment(message: str) -> dict:
     if score_change == 0:
         for word in compliments:
             if word in msg_lower:
-                score_change = 3
+                score_change = 1
                 reason = "compliment"
                 break
         
         for word in emotional:
             if word in msg_lower:
-                score_change = 4
+                score_change = 1.5
                 reason = "emotional connection"
                 break
         
         for word in flirty:
             if word in msg_lower:
-                score_change = 3
+                score_change = 1
                 reason = "flirting"
                 break
     
@@ -243,7 +243,7 @@ async def extract_user_info(user_id: str, message: str):
             ON CONFLICT DO NOTHING
         """, user_id)
 
-async def get_user_context(user_id: str) -> dict:
+async def get_user_context(user_id: str, conversation_id: str = None) -> dict:
     """Get user context for personalization with facts"""
     # Get user profile
     profile = await db.fetchrow("""
@@ -269,15 +269,28 @@ async def get_user_context(user_id: str) -> dict:
         LIMIT 1
     """, user_id)
 
-    # Get recent messages
-    recent_messages = await db.fetch("""
-        SELECT m.role, m.content
-        FROM messages m
-        JOIN conversations c ON m.conversation_id = c.id
-        WHERE c.user_id = $1
-        ORDER BY m.created_at DESC
-        LIMIT 5
-    """, user_id)
+    # Get recent messages from current conversation only
+    if conversation_id:
+        recent_messages = await db.fetch("""
+            SELECT m.role, m.content
+            FROM messages m
+            WHERE m.conversation_id = $1
+            ORDER BY m.created_at DESC
+            LIMIT 6
+        """, conversation_id)
+    else:
+        recent_messages = await db.fetch("""
+            SELECT m.role, m.content
+            FROM messages m
+            WHERE m.conversation_id = (
+                SELECT c.id FROM conversations c
+                WHERE c.user_id = $1
+                ORDER BY c.last_message_at DESC
+                LIMIT 1
+            )
+            ORDER BY m.created_at DESC
+            LIMIT 6
+        """, user_id)
 
     context = {}
     
@@ -296,7 +309,7 @@ async def get_user_context(user_id: str) -> dict:
         context['relationship_stage'] = relationship['stage']
     
     if recent_messages:
-        context['recent_messages'] = [dict(m) for m in recent_messages]
+        context['recent_messages'] = [dict(m) for m in reversed(recent_messages)]
 
     return context
 
@@ -321,17 +334,35 @@ async def send_message(
                 SELECT * FROM conversations
                 WHERE id = $1 AND user_id = $2
             """, chat_message.conversation_id, current_user.id)
-
+            
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
-
+            
             conversation_id = conversation['id']
         else:
-            conversation_id = uuid4()
-            await db.execute("""
-                INSERT INTO conversations (id, user_id, title)
-                VALUES ($1, $2, $3)
-            """, conversation_id, current_user.id, chat_message.message[:50])
+            # Auto-continue recent conversation (within 2 hours) to maintain context
+            recent_conv = await db.fetchrow("""
+                SELECT id, title FROM conversations 
+                WHERE user_id = $1 
+                AND (
+                    (last_message_at IS NOT NULL AND last_message_at > NOW() - INTERVAL '2 hours')
+                    OR 
+                    (started_at IS NOT NULL AND started_at > NOW() - INTERVAL '2 hours')
+                )
+                ORDER BY COALESCE(last_message_at, started_at) DESC 
+                LIMIT 1
+            """, current_user.id)
+            
+            if recent_conv:
+                # Continue the existing conversation to preserve context
+                conversation_id = recent_conv['id']
+            else:
+                # Create new conversation only if no recent one exists
+                conversation_id = uuid4()
+                await db.execute("""
+                    INSERT INTO conversations (id, user_id, title, started_at)
+                    VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+                """, conversation_id, current_user.id, chat_message.message[:50])
 
         # Store user message
         user_message_id = uuid4()
@@ -341,7 +372,7 @@ async def send_message(
         """, user_message_id, conversation_id, chat_message.message)
 
         # Get user context with facts
-        user_context = await get_user_context(current_user.id)
+        user_context = await get_user_context(current_user.id, str(conversation_id))
 
         # Determine personality
         personality = chat_message.personality
@@ -390,12 +421,10 @@ async def send_message(
                 relationship_score = GREATEST(0, LEAST(100, relationships.relationship_score + $3)),
                 last_interaction = CURRENT_TIMESTAMP,
                 stage = CASE 
-                    WHEN relationships.relationship_score + $3 <= 10 THEN 'stranger'
-                    WHEN relationships.relationship_score + $3 <= 25 THEN 'acquaintance'
-                    WHEN relationships.relationship_score + $3 <= 45 THEN 'friend'
-                    WHEN relationships.relationship_score + $3 <= 65 THEN 'close_friend'
-                    WHEN relationships.relationship_score + $3 <= 85 THEN 'romantic_interest'
-                    ELSE 'partner'
+                    WHEN relationships.relationship_score + $3 <= 15 THEN 'stranger'
+                    WHEN relationships.relationship_score + $3 <= 30 THEN 'acquaintance'
+                    WHEN relationships.relationship_score + $3 <= 50 THEN 'friend'
+                    ELSE 'best_friend'
                 END
             RETURNING relationship_score
         """, current_user.id, personality.value, sentiment['score_change'])

@@ -31,10 +31,10 @@ class ChatResponse(BaseModel):
 class Conversation(BaseModel):
     id: UUID
     user_id: UUID
-    title: Optional[str]
-    started_at: datetime
-    message_count: int
-    is_active: bool
+    title: Optional[str] = None
+    started_at: Optional[datetime] = None
+    message_count: Optional[int] = 0
+    last_message_at: Optional[datetime] = None
 
 class Message(BaseModel):
     id: UUID

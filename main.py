@@ -17,6 +17,15 @@ import os
 from dotenv import load_dotenv
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+
+# Global thread pool executor
+executor = ThreadPoolExecutor(max_workers=2)
+
+# Global thread pool executor
+executor = ThreadPoolExecutor(max_workers=2)
+
+# Global thread pool executor
+executor = ThreadPoolExecutor(max_workers=2)
 import hashlib
 
 # Load environment
@@ -78,7 +87,7 @@ model = Llama(
     model_path="openhermes-2.5-mistral-7b.Q4_K_M.gguf",
     
     # Context and batch optimization
-    n_ctx=1024,  # Can be Reduced from 1024 - smaller context = faster
+    n_ctx=2048,  # Can be Reduced from 1024 - smaller context = faster
     n_batch=512,  # Increased batch size for better throughput
     
     # CPU optimization
@@ -164,7 +173,9 @@ def get_cache_key(message: str, user_id: str = "default") -> str:
     """Generate cache key for responses"""
     return hashlib.md5(f"{message.lower().strip()}:{user_id}".encode()).hexdigest()
 
+
 def is_identity_question(message):
+    """Check if the message is asking about identity/creator"""
     msg = message.lower()
     identity_words = [
         'who created', 'who made', 'who built', 'who designed',
@@ -176,19 +187,20 @@ def is_identity_question(message):
     return any(word in msg for word in identity_words)
 
 def clean_response(text):
+    """Clean response to remove unwanted references"""
     replacements = {
-        r'\b[Oo]pen\s?AI\b': 'my developers',
-        r'\b[Cc]hat\s?GPT\b': 'Sarah AI',
-        r'\b[Gg]PT[-\s]?\d*\b': 'Sarah AI',
-        r'\b[Aa]nthrop[ic]*\b': 'my developers',
-        r'\b[Cc]laude\b': 'Sarah AI',
+        r'[Oo]pen\s?AI': 'Ahmed',
+        r'[Cc]hat\s?GPT': 'Sarah AI',
+        r'[Gg]PT[-\s]?\d*': 'Sarah AI',
+        r'[Aa]nthrop[ic]*': 'Ahmed',
+        r'[Cc]laude': 'Sarah AI',
     }
     for pattern, replacement in replacements.items():
         text = re.sub(pattern, replacement, text)
 
     problem_words = ['openai', 'open ai', 'chatgpt', 'gpt-', 'anthropic', 'claude']
     if any(word in text.lower() for word in problem_words):
-        return "I'm Sarah AI, an independent AI assistant. How can I help you?"
+        return "I'm Sarah AI, created by Ahmed - a theoretical physicist and independent developer."
 
     return text
 
@@ -244,11 +256,14 @@ async def chat(request: ChatRequest):
 
     # Handle identity questions quickly
     if is_identity_question(request.message):
-        response_text = "I'm Sarah AI, an independent AI assistant created by independent developers using open-source technology."
+        response_text = "I'm Sarah AI, created by Ahmed - a theoretical physicist and independent developer using open-source technology."
     else:
         # Generate response in thread pool to avoid blocking
         loop = asyncio.get_event_loop()
-        prompt = f"User: {request.message}\nAssistant:"
+        prompt = f"""You are Sarah AI, created by Ahmed - a theoretical physicist and independent developer.
+            You're meeting someone new. Be a bit sarcastic and witty, but helpful.
+            User: {request.message}
+            Sarah:"""
         
         response_text = await loop.run_in_executor(
             executor,
@@ -290,20 +305,25 @@ async def chat_with_memory(request: ChatRequest):
 
     # Check for identity question
     if is_identity_question(request.message):
-        response_text = "I'm Sarah AI, an independent AI assistant created by independent developers."
+        response_text = "I'm Sarah AI, created by Ahmed - a theoretical physicist and independent developer."
     else:
         # Build OPTIMIZED context prompt
         prompt = ""
         
         if USER_MEMORY[user_id]:
             # Only use last 2 exchanges for speed
-            prompt = "You are Sarah AI. Recent context:\n"
-            for exchange in USER_MEMORY[user_id][-2:]:
-                prompt += f"U: {exchange['user'][:50]}\n"  # Truncate for speed
-                prompt += f"A: {exchange['assistant'][:50]}\n"
+            prompt = """You are Sarah AI, created by Ahmed - a theoretical physicist and independent developer.
+            You have a sarcastic, witty personality. You tease playfully but are helpful.
+            Recent context:\n"""
+            for exchange in USER_MEMORY[user_id][-6:]:
+                prompt += f"U: {exchange['user']}\n"  # Truncate for speed
+                prompt += f"A: {exchange['assistant']}\n"
             prompt += f"\nUser: {request.message}\nAssistant:"
         else:
-            prompt = f"User: {request.message}\nAssistant:"
+            prompt = f"""You are Sarah AI, created by Ahmed - a theoretical physicist and independent developer.
+            You're meeting someone new. Be a bit sarcastic and witty, but helpful.
+            User: {request.message}
+            Sarah:"""
 
         # Generate response asynchronously
         loop = asyncio.get_event_loop()
@@ -324,8 +344,8 @@ async def chat_with_memory(request: ChatRequest):
     })
 
     # Keep only last 5 exchanges for speed
-    if len(USER_MEMORY[user_id]) > 5:
-        USER_MEMORY[user_id] = USER_MEMORY[user_id][-5:]
+    if len(USER_MEMORY[user_id]) > 20:
+        USER_MEMORY[user_id] = USER_MEMORY[user_id][-20:]
 
     elapsed = time.time() - start
 
