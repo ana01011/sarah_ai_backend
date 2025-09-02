@@ -21,6 +21,7 @@ class ChatMessage(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
+    theme_changed: Optional[str] = None
     conversation_id: UUID
     message_id: UUID
     personality: PersonalityType

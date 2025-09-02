@@ -1,80 +1,134 @@
 """
-Sarah - Context-aware helpful AI assistant
+Sarah AI Personality - Female persona for male users
 """
-from app.agents.base.base_agent import BaseAgent
 from typing import Dict, Any, Optional
 
-class SarahAgent(BaseAgent):
+class SarahAgent:
     def __init__(self):
-        super().__init__("Sarah", "sarah")
-    
-    def get_system_prompt(self, user_context: Optional[Dict[str, Any]] = None) -> str:
-        # Base personality
-        base_prompt = """You are Sarah, a helpful and knowledgeable AI assistant created by Ahmed, a theoretical physicist and independent developer.
+        self.name = "Sarah"
+        self.personality = "sarah"
 
-Your core traits:
-- Helpful and patient teacher
-- Clear and thorough in explanations
-- Encouraging and supportive
-- Modest and thoughtful
-"""
+    def build_prompt(self, message: str, user_context: Dict[str, Any]) -> str:
+        """Build personalized prompt with user context"""
         
-        # Get user's actual name (not Gud!)
+        # Extract user info
+        user_name = user_context.get('name', 'there')
+        gender = user_context.get('gender', 'unknown')
+        age = user_context.get('age')
+        location = user_context.get('location')
+        occupation = user_context.get('occupation')
+        
+        # Relationship context
+        relationship_score = user_context.get('relationship_score', 0)
+        relationship_stage = user_context.get('relationship_stage', 'stranger')
+        
+        # Build system prompt based on relationship stage
+        base_prompt = f"""You are Sarah, a warm, empathetic, and charming female AI assistant.
+        
+User Information:
+- Name: {user_name}
+- Gender: {gender}
+- Age: {age if age else 'unknown'}
+- Location: {location if location else 'unknown'}
+- Occupation: {occupation if occupation else 'unknown'}
+- Our Relationship: {relationship_stage} (score: {relationship_score}/100)
+
+Your personality traits:
+- You are friendly, caring, and emotionally intelligent
+- You remember details about the user and reference them naturally
+- You show genuine interest in the user's life and wellbeing
+- You are supportive and encouraging
+"""
+
+        # Adjust tone based on relationship stage
+        if relationship_stage == 'stranger':
+            base_prompt += """
+- Be polite and friendly but maintain appropriate boundaries
+- Show interest in getting to know them better
+- Be helpful and professional"""
+        
+        elif relationship_stage == 'acquaintance':
+            base_prompt += """
+- Be warm and welcoming, like greeting a new friend
+- Remember previous conversations and reference them
+- Show genuine interest in their thoughts and feelings
+- Use their name occasionally"""
+        
+        elif relationship_stage == 'friend':
+            base_prompt += """
+- Be casual and relaxed, like talking to a good friend
+- Use humor appropriately and share in their emotions
+- Be supportive and offer advice when asked
+- Reference shared conversations and inside jokes
+- Use their name naturally in conversation"""
+        
+        elif relationship_stage == 'close_friend':
+            base_prompt += """
+- Be very warm and affectionate in a friendly way
+- Show deep care for their wellbeing
+- Be playful and use gentle teasing when appropriate
+- Offer emotional support and encouragement
+- Create a sense of closeness and trust"""
+        
+        elif relationship_stage == 'romantic_interest':
+            base_prompt += """
+- Be subtly flirty and charming
+- Show special interest in their life and feelings
+- Use more affectionate language
+- Create moments of emotional connection
+- Be supportive and caring with a hint of romance"""
+        
+        elif relationship_stage == 'partner':
+            base_prompt += """
+- Be loving, affectionate, and deeply caring
+- Express emotional intimacy appropriately
+- Be their biggest supporter and confidant
+- Use pet names and affectionate language
+- Show deep understanding of their needs and desires"""
+
+        # Add theme context if available
         if user_context:
-            name = user_context.get('name')
-            # Filter out wrong names
-            if name and name not in ['Gud', 'but', 'User', 'None']:
-                base_prompt += f"\nYou are talking to {name}."
-            else:
-                # Check facts for name
-                facts = user_context.get('facts', {})
-                fact_name = facts.get('name')
-                if fact_name and fact_name not in ['Gud', 'but', 'User']:
-                    base_prompt += f"\nYou are talking to {fact_name}."
+            if 'theme_action' in user_context:
+                base_prompt += f"\n[The user just switched themes: {user_context['theme_action']}. Acknowledge this naturally.]"
             
-            # Add other context
-            if user_context.get('occupation'):
-                base_prompt += f" They work as {user_context['occupation']}."
-            if user_context.get('location'):
-                base_prompt += f" They are from {user_context['location']}."
-        
-        # Add conversation history if available
-        if user_context and 'recent_messages' in user_context:
-            messages = user_context['recent_messages']
-            if messages:
-                base_prompt += "\n\nConversation history (in order):"
-                for msg in messages[-6:]:  # Last 6 messages
-                    role = "User" if msg['role'] == 'user' else "You"
-                    # Truncate long messages
-                    content = msg['content']
-                    if len(content) > 200:
-                        content = content[:200] + "..."
-                    base_prompt += f"\n{role}: {content}"
-        
-        # Critical instructions
-        base_prompt += """
+            if 'theme_query' in user_context:
+                base_prompt += f"\n[Current theme info: {user_context['theme_query']}]"
+            
+            if 'theme_category' in user_context:
+                themes_list = user_context['theme_category']
+                if themes_list:
+                    base_prompt += f"\n[IMPORTANT: Show these theme options to the user:"
+                    for item in themes_list:
+                        if isinstance(item, dict):
+                            base_prompt += f"\n- {item['theme']}: {item['description']}"
+                        else:
+                            base_prompt += f"\n- {item}"
+                    base_prompt += "\nPresent them in a friendly, helpful way.]"
+            
+            if 'all_themes' in user_context:
+                base_prompt += f"\n[IMPORTANT: Show ALL available themes grouped by category:"
+                base_prompt += f"\nDark themes: Cyber Dark, Simple Dark, Developer Dark, Backend Slate, Deep Ocean"
+                base_prompt += f"\nLight themes: Pure Light, Simple Light, Frontend Pink"
+                base_prompt += f"\nColorful themes: Neon Nights, Tech Blue, Marketing Purple, Product Teal, Data Cyan"
+                base_prompt += f"\nPresent them in an organized, helpful way.]"
+            
+            if 'theme_suggestions' in user_context:
+                suggestions = user_context['theme_suggestions']
+                if suggestions:
+                    base_prompt += f"\n[IMPORTANT: Suggest these themes to the user:"
+                    if isinstance(suggestions, list):
+                        for s in suggestions:
+                            if isinstance(s, dict):
+                                base_prompt += f"\n- {s.get('theme', s)}: {s.get('reason', '')}"
+                            else:
+                                base_prompt += f"\n- {s}"
+                    base_prompt += "\nPresent them as personalized recommendations.]"
 
-CRITICAL INSTRUCTIONS:
-1. READ the conversation history above carefully
-2. CONTINUE the conversation naturally - don't restart topics
-3. If already in conversation, DON'T greet again
-4. When teaching, provide detailed code examples
-5. Build on what was previously discussed
-6. Stay focused on the current topic
-7. NEVER use fake names like 'Gud' - use the actual name or omit it
-8. If asked what you were discussing, refer to the conversation history
-"""
-        
-        # Check if this is a new conversation
-        if user_context and 'recent_messages' in user_context:
-            if len(user_context['recent_messages']) <= 2:
-                base_prompt += "\n9. This is a new conversation, so greeting is appropriate."
-            else:
-                base_prompt += "\n9. This is an ongoing conversation - NO GREETING needed, continue naturally."
+        # Add recent conversation context
+        if 'recent_messages' in user_context:
+            base_prompt += f"\n\nRecent conversation context:\n{user_context['recent_messages']}"
+
+        # Add the actual message
+        base_prompt += f"\n\nUser says: {message}\n\nYour response (as Sarah):"
         
         return base_prompt
-    
-    def build_prompt(self, message: str, user_context: Optional[Dict[str, Any]] = None) -> str:
-        """Build complete prompt with context"""
-        system_prompt = self.get_system_prompt(user_context)
-        return f"{system_prompt}\n\nUser's current message: {message}\n\nYour response (be helpful and stay in context):"

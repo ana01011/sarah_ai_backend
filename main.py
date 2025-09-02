@@ -50,6 +50,7 @@ from app.services.llm_service import llm_service
 from app.api.v1.routers import auth_router
 from app.api.v1.routers import chat_router
 from app.api.v1.routers import user_router
+from app.api.v1.routers import theme_router
 
 # Fix auth_service
 from app.services.auth.auth_service import auth_service
@@ -228,6 +229,7 @@ def generate_response_sync(prompt: str, max_tokens: int, temperature: float) -> 
 app.include_router(auth_router.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(chat_router.router, prefix="/api/v1/chat", tags=["Chat"])
 app.include_router(user_router.router, prefix="/api/v1/users", tags=["Users"])
+app.include_router(theme_router.router, prefix="/api/v1", tags=["Themes"])
 
 # ============= OPTIMIZED CHAT ENDPOINTS =============
 

@@ -15,6 +15,7 @@ from uuid import uuid4
 import time
 import re
 from datetime import datetime, timedelta
+from app.services.theme_service import theme_service
 
 router = APIRouter()
 
@@ -322,11 +323,16 @@ async def send_message(
     start_time = time.time()
 
     try:
+        # Initialize theme tracking variables
+        theme_switched = False
+        theme_name = None
+
         # Analyze message sentiment for relationship impact
         sentiment = analyze_message_sentiment(chat_message.message)
         
         # Extract user information from message
         await extract_user_info(current_user.id, chat_message.message)
+
 
         # Get or create conversation
         if chat_message.conversation_id:
@@ -373,6 +379,60 @@ async def send_message(
 
         # Get user context with facts
         user_context = await get_user_context(current_user.id, str(conversation_id))
+
+        # Check for theme commands and update context
+        # Check for theme commands and smart suggestions
+        theme_action = await theme_service.detect_theme_intent(chat_message.message)
+        print(f"DEBUG: detect_theme_intent result: {theme_action}")
+        if not theme_action:
+            theme_action = theme_service.detect_theme_command(chat_message.message)
+        print(f"DEBUG: detect_theme_command result: {theme_action}")
+        
+        if theme_action:
+            action_type, data, reason = theme_action
+            
+            if action_type == 'switch_theme':
+                print(f"DEBUG: Switching to theme: {data}")
+                # Switch the theme
+                success = await theme_service.switch_theme(
+                    user_id=current_user.id,
+                    theme_name=data,
+                    trigger='chat_command'
+                )
+                if success:
+                    theme_switched = True
+                    print(f"DEBUG: Theme switched successfully to {theme_name}")
+                    theme_name = data
+                    user_context['theme_action'] = f"Switched to {data}"
+            
+            elif action_type == 'show_category':
+                # Show themes in category
+                user_context['theme_category'] = data
+                user_context['theme_message'] = f"Here are the {reason} themes"
+            
+            elif action_type == 'show_all':
+                # Show all available themes
+                user_context['all_themes'] = data
+            
+            elif action_type == 'mood_suggestion':
+                # Suggest themes based on mood
+                user_context['theme_suggestions'] = data
+                user_context['suggestion_reason'] = reason
+            
+            elif action_type == 'query_theme':
+                # Get current theme with description
+                current_theme = await theme_service.get_current_theme(current_user.id)
+                description = theme_service.THEME_DESCRIPTIONS.get(current_theme, '')
+                user_context['theme_query'] = f"{current_theme}: {description}"
+            
+            elif action_type == 'suggest_theme':
+                # Get smart suggestions
+                suggestions = await theme_service.get_theme_suggestions(
+                    user_id=current_user.id,
+                    context={'time': datetime.now().hour}
+                )
+                user_context['theme_suggestions'] = suggestions
+
 
         # Determine personality
         personality = chat_message.personality
@@ -453,6 +513,7 @@ async def send_message(
             message_id=ai_message_id,
             personality=personality,
             tokens_used=len(response_text.split()),
+            theme_changed=theme_name if theme_switched else None,
             processing_time=processing_time,
             user_context=user_context
         )
